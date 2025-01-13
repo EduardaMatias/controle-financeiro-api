@@ -1,4 +1,4 @@
-# <img src="https://github.com/user-attachments/assets/0e502c69-e085-4436-bb6c-66f432915330" width="30"/> Controle Financeiro Pessoal | API
+# 💸 Controle Financeiro Pessoal | API
 
 > [!NOTE]
 > O projeto ainda está em desenvolvimento
