@@ -10,6 +10,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddScoped<IUsuarioRepository>(provider =>
+    new UsuarioRepository(connectionString)
+);
+
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
