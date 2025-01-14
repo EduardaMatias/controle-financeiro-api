@@ -20,8 +20,13 @@ builder.Services.AddScoped<IDespesaRepository>(provider =>
     new DespesaRepository(connectionString)
 );
 
+builder.Services.AddScoped<IReceitaRepository>(provider =>
+    new ReceitaRepository(connectionString)
+);
+
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IDespesaService, DespesaService>();
+builder.Services.AddScoped<IReceitaService, ReceitaService>();
 
 var app = builder.Build();
 
