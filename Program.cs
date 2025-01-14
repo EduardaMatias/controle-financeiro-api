@@ -24,9 +24,14 @@ builder.Services.AddScoped<IReceitaRepository>(provider =>
     new ReceitaRepository(connectionString)
 );
 
+builder.Services.AddScoped<IHistoricoRepository>(provider =>
+    new HistoricoRepository(connectionString)
+);
+
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IDespesaService, DespesaService>();
 builder.Services.AddScoped<IReceitaService, ReceitaService>();
+builder.Services.AddScoped<IHistoricoService, HistoricoService>();
 
 var app = builder.Build();
 
