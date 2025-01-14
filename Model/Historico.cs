@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using controle_financeiro_api.Model.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace controle_financeiro_api.Model
@@ -8,12 +9,13 @@ namespace controle_financeiro_api.Model
     {
         public Historico() { }
 
-        public Historico(int usuarioId, string tipo, double valor, DateOnly data)
+        public Historico(int usuarioId, string tipo, double valor, DateOnly data, string categoria)
         {
             this.Usuario_Id = usuarioId;
             this.Tipo = tipo;
             this.Valor = valor;
-            this.Data = data;
+            this.Data = data.ToDateTime(TimeOnly.MinValue);
+            this.Categoria = categoria;
         }
 
         [Key]
@@ -23,8 +25,10 @@ namespace controle_financeiro_api.Model
         [Required]
         public string Tipo { get; set; }
         [Required]
+        public string Categoria { get; set; }
+        [Required]
         public double Valor { get; set; }
         [Required]
-        public DateOnly Data { get; set; }
+        public DateTime Data { get; set; }
     }
 }

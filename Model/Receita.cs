@@ -13,7 +13,7 @@ namespace controle_financeiro_api.Model
             this.Usuario_Id = usuarioId;
             this.Valor = valor;
             this.Moeda = "BRL";
-            this.Data = data;
+            this.Data = data.ToDateTime(TimeOnly.MinValue);
             this.Categoria = categoria;
         }
 
@@ -26,7 +26,7 @@ namespace controle_financeiro_api.Model
         [Required]
         public string Moeda { get; set; }
         [Required]
-        public DateOnly Data { get; set; }
+        public DateTime Data { get; set; }
         [Required]
         public string Categoria { get; set; }
 
