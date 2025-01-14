@@ -32,16 +32,9 @@ namespace controle_financeiro_api.Service
             return await _usuarioRepository.Alterar(usuario);
         }
 
-        public async Task<bool> AdicionarSaldo(int id, UsuarioAdicionarSaldoRequest request)
+        public async Task<bool> AlterarSaldo(int id, UsuarioAdicionarSaldoRequest request)
         {
             Usuario usuario = await _usuarioRepository.Obter(id);
-
-            if (usuario.Saldo.HasValue)
-            {
-                _logger.LogWarning("O usuário já adicionou o saldo");
-                return false;
-            }
-
             usuario.AdicionarSaldo(request.Saldo);
             return await _usuarioRepository.Alterar(usuario);
         }

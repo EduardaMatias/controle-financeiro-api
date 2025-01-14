@@ -43,18 +43,13 @@ namespace controle_financeiro_api.Controller
             return Ok(await _usuarioService.Alterar(id, request));
         }
 
-        [HttpPatch("adicionar-saldo/{id}")]
+        [HttpPut("adicionar-saldo/{id}")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AdicionarSaldo([FromRoute] int id, [FromBody] UsuarioAdicionarSaldoRequest request)
+        public async Task<IActionResult> AlterarSaldo([FromRoute] int id, [FromBody] UsuarioAdicionarSaldoRequest request)
         {
-            var response = await _usuarioService.AdicionarSaldo(id, request);
-
-            if(response == false)
-            {
-                return BadRequest(response);
-            }
+            var response = await _usuarioService.AlterarSaldo(id, request);
 
             return Ok(response);
         }
