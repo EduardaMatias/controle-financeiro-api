@@ -48,3 +48,7 @@ CREATE TABLE Historico (
     Valor DECIMAL(18, 2) NOT NULL,
     Data DATE NOT NULL
 );
+
+-- Alteração na tabela Historico
+ALTER TABLE [ControleFinanceiro].[dbo].[Historico]
+ADD [Categoria] VARCHAR(50) NOT NULL;
