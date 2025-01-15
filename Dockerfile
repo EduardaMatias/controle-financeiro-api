@@ -7,8 +7,10 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY . .
-RUN dotnet restore
-RUN dotnet publish -c Release -o /app/publish
+
+# Especifique o caminho do arquivo de projeto ou solução
+RUN dotnet restore "controle-financeiro-api/controle-financeiro-api.csproj"
+RUN dotnet publish "controle-financeiro-api/controle-financeiro-api.csproj" -c Release -o /app/publish
 
 # Etapa final
 FROM base AS final
