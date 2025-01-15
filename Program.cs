@@ -12,6 +12,8 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+Console.WriteLine($"Connection String: {connectionString}");
+
 builder.Services.AddScoped<IUsuarioRepository>(provider =>
     new UsuarioRepository(connectionString)
 );
