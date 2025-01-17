@@ -7,7 +7,7 @@ namespace controle_financeiro_api.Model.DTO.Request
     public class PlanejamentoCriarRequest
     {
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public PlanejamentoMes Mes { get; set; }
+        public Mes Mes { get; set; }
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public double Valor { get; set; }
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
