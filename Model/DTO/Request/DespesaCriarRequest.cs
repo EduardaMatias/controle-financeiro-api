@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using controle_financeiro_api.Model.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace controle_financeiro_api.Model.DTO.Request
 {
@@ -11,6 +12,6 @@ namespace controle_financeiro_api.Model.DTO.Request
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public DateOnly Data { get; set; }
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public string Categoria { get; set; }
+        public DespesaCategoria Categoria { get; set; }
     }
 }

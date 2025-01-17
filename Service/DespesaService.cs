@@ -18,8 +18,8 @@ namespace controle_financeiro_api.Service
 
         public async Task<bool> Criar(DespesaCriarRequest request)
         {
-            await _despesaRepository.Criar(new Despesa(request.UsuarioId, request.Valor, request.Data, request.Categoria));
-            return await _historicoRepository.Criar(new Historico(request.UsuarioId, HistoricoTipo.DESPESA.ToString(), request.Valor, request.Data, request.Categoria));
+            await _despesaRepository.Criar(new Despesa(request.UsuarioId, request.Valor, request.Data, request.Categoria.ToString()));
+            return await _historicoRepository.Criar(new Historico(request.UsuarioId, HistoricoTipo.DESPESA.ToString(), request.Valor, request.Data, request.Categoria.ToString()));
         }
 
         public async Task<Despesa> Obter(int usuarioId)
