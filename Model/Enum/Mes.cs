@@ -2,7 +2,7 @@
 
 namespace controle_financeiro_api.Model.Enum
 {
-    public enum PlanejamentoMes
+    public enum Mes
     {
         JANEIRO = 1, 
         FEVEREIRO = 2, 
