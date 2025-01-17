@@ -32,7 +32,14 @@ namespace controle_financeiro_api.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Criar([FromBody] DespesaCriarRequest request)
         {
-            return Ok(await _despesaService.Criar(request));
+            var resposta = await _despesaService.Criar(request);
+
+            if(!resposta)
+            {
+                return BadRequest();
+            }
+
+            return Ok(resposta);
         }
     }
 }

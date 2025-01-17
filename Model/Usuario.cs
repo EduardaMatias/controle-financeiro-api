@@ -13,12 +13,12 @@ namespace controle_financeiro_api.Models
             this.Nome = nome;
             this.Email = email;
             this.Senha = senha;
+            this.Saldo = 0;
         }
 
-        public void AdicionarSaldo(double saldo)
-        {
-            this.Saldo = saldo;
-        }
+        public void AdicionarSaldo(double saldo) => Saldo += saldo;
+
+        public void SubtrairSaldo(double saldo) => Saldo -= saldo;
 
         public void Alterar(string nome, string email, string senha)
         {
