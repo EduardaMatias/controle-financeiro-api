@@ -1,5 +1,6 @@
 ﻿using controle_financeiro_api.Model;
 using controle_financeiro_api.Model.DTO.Request;
+using controle_financeiro_api.Model.Enum;
 using controle_financeiro_api.Models;
 using controle_financeiro_api.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,9 @@ namespace controle_financeiro_api.Controller
         [ProducesResponseType(typeof(Despesa), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Obter([FromRoute] int usuarioId)
+        public async Task<IActionResult> Listar([FromRoute] int usuarioId, [FromQuery] Mes mes)
         {
-            return Ok(await _despesaService.Obter(usuarioId));
+            return Ok(await _despesaService.Listar(usuarioId, mes));
         }
 
         [HttpPost()]

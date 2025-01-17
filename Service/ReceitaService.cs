@@ -3,6 +3,7 @@ using controle_financeiro_api.Model;
 using controle_financeiro_api.Repository;
 using controle_financeiro_api.Model.Enum;
 using controle_financeiro_api.Models;
+using controle_financeiro_api.Model.DTO.Response;
 
 namespace controle_financeiro_api.Service
 {
@@ -30,9 +31,9 @@ namespace controle_financeiro_api.Service
             return await _historicoRepository.Criar(new Historico(request.UsuarioId, HistoricoTipo.RECEITA.ToString(), request.Valor, request.Data, request.Categoria.ToString()));
         }
 
-        public async Task<Receita> Obter(int usuarioId)
+        public async Task<ReceitaDespesaResponse> Listar(int usuarioId, Mes mes)
         {
-            return await _receitaRepository.Obter(usuarioId);
+            return await _receitaRepository.Listar(usuarioId, (int)mes);
         }
     }
 }
