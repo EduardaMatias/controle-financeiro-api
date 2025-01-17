@@ -22,7 +22,7 @@ namespace controle_financeiro_api.Controller
         [ProducesResponseType(typeof(Planejamento), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Obter([FromRoute] int usuarioId, [FromQuery] PlanejamentoMes mes)
+        public async Task<IActionResult> Obter([FromRoute] int usuarioId, [FromQuery] Mes mes)
         {
             return Ok(await _planejamentoService.Obter(usuarioId, mes.ToString()));
         }

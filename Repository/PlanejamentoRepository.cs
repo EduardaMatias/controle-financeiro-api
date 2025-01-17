@@ -17,7 +17,7 @@ namespace controle_financeiro_api.Repository
             _connectionString = connectionString;
         }
 
-        public async Task<Planejamento> Obter(PlanejamentoMes mes)
+        public async Task<Planejamento> Obter(Mes mes)
         {
             using IDbConnection conn = new SqlConnection(_connectionString);
             conn.Open();
