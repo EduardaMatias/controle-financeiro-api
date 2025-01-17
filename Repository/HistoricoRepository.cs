@@ -15,14 +15,16 @@ namespace controle_financeiro_api.Repository
             _connectionString = connectionString;
         }
 
-        public async Task<IEnumerable<Historico>> Obter(int usuarioId)
+        public async Task<IEnumerable<Historico>> Listar(int usuarioId, int mes)
         {
             using IDbConnection conn = new SqlConnection(_connectionString);
             conn.Open();
 
-            string query = "SELECT * FROM Historico WHERE Usuario_Id = @UsuarioId";
+            string query = "SELECT * FROM Historico H " +
+                           "WHERE H.Usuario_Id = @UsuarioId " +
+                           "AND MONTH(H.Data) = @Mes";
 
-            return await conn.QueryAsync<Historico>(query, new { UsuarioId = usuarioId });
+            return await conn.QueryAsync<Historico>(query, new { UsuarioId = usuarioId, Mes = mes });
         }
 
         public async Task<bool> Criar(Historico historico)

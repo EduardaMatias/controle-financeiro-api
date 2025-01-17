@@ -14,9 +14,9 @@ namespace controle_financeiro_api.Service
             _historicoRepository = historicoRepository;
         }
 
-        public async Task<IEnumerable<Historico>> Obter(int usuarioId)
+        public async Task<IEnumerable<Historico>> Listar(int usuarioId, Mes mes)
         {
-            return await _historicoRepository.Obter(usuarioId);
+            return await _historicoRepository.Listar(usuarioId, (int)mes);
         }
     }
 }
