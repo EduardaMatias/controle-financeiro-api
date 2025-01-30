@@ -22,10 +22,20 @@ namespace controle_financeiro_api.Repository
             return await conn.GetAsync<Usuario>(id);
         }
 
+        public async Task<Usuario> Obter(string email)
+        {
+            using IDbConnection conn = new SqlConnection(_connectionString);
+            conn.Open();
+            string query = "SELECT * FROM Usuario WHERE Email = @Email";
+            return await conn.QueryFirstOrDefaultAsync<Usuario>(query, new { Email = email });
+        }
+
         public async Task<bool> Criar(Usuario usuario)
         {
             using IDbConnection connection = new SqlConnection(_connectionString);
             connection.Open();
+
+            usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
 
             using IDbTransaction tran = connection.BeginTransaction();
             await connection.InsertAsync(usuario, tran);

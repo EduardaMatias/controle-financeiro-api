@@ -25,13 +25,13 @@ namespace controle_financeiro_api.Controller
             return Ok(await _usuarioService.Obter(id));
         }
 
-        [HttpPost()]
-        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [HttpGet("buscar-por-email/{email}")]
+        [ProducesResponseType(typeof(Usuario), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Criar([FromBody] UsuarioCriarAlterarRequest request)
+        public async Task<IActionResult> Obter([FromRoute] string email)
         {
-            return Ok(await _usuarioService.Criar(request));
+            return Ok(await _usuarioService.Obter(email));
         }
 
         [HttpPut("{id}")]

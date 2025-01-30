@@ -25,6 +25,11 @@ namespace controle_financeiro_api.Service
             return await _usuarioRepository.Obter(id);
         }
 
+        public async Task<Usuario> Obter(string email)
+        {
+            return await _usuarioRepository.Obter(email);
+        }
+
         public async Task<bool> Alterar(int id, UsuarioCriarAlterarRequest request)
         {
             Usuario usuario = await _usuarioRepository.Obter(id);

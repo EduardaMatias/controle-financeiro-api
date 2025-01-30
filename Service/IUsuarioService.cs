@@ -7,6 +7,7 @@ namespace controle_financeiro_api.Service
     {
         Task<bool> Criar(UsuarioCriarAlterarRequest request);
         Task<Usuario> Obter(int id);
+        Task<Usuario> Obter(string email);
         Task<bool> Alterar(int id, UsuarioCriarAlterarRequest request);
         Task<bool> AlterarSaldo(int id, UsuarioAdicionarSaldoRequest request);
     }
