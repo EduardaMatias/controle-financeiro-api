@@ -17,6 +17,14 @@ namespace controle_financeiro_api.Service
 
         public async Task<bool> Criar(UsuarioCriarAlterarRequest request)
         {
+            var usuario = _usuarioRepository.Obter(request.Email);
+
+            if(usuario != null)
+            {
+                _logger.LogWarning("Já existe usuário cadastrado com esse email.");
+                return false;
+            }
+
             return await _usuarioRepository.Criar(new Usuario(request.Nome, request.Email, request.Senha));
         }
 

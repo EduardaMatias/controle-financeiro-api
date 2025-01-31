@@ -37,7 +37,7 @@ namespace controle_financeiro_api.Controller
 
             if(!resposta)
             {
-                return BadRequest();
+                return UnprocessableEntity();
             }
 
             return Ok(resposta);

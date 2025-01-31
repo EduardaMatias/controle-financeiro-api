@@ -25,14 +25,14 @@ namespace controle_financeiro_api.Controller
         [AllowAnonymous] 
         public async Task<IActionResult> Login([FromBody] AutenticacaoLoginRequest request)
         {
-            var token = await _autenticacaoService.Login(request);
+            var resposta = await _autenticacaoService.Login(request);
 
-            if (token == null)
+            if (resposta == null)
             {
                 return Unauthorized();
             }
 
-            return Ok(new { Token = token });
+            return Ok(new { Token = resposta });
         }
 
         [HttpPost("cadastro")]
@@ -42,7 +42,14 @@ namespace controle_financeiro_api.Controller
         [AllowAnonymous] 
         public async Task<IActionResult> Criar([FromBody] UsuarioCriarAlterarRequest request)
         {
-            return Ok(await _usuarioService.Criar(request));
+            var resposta = await _usuarioService.Criar(request);
+
+            if(!resposta)
+            {
+                return UnprocessableEntity();
+            }
+
+            return Ok();
         }
     }
 }

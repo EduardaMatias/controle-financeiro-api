@@ -24,8 +24,6 @@ namespace controle_financeiro_api.Service
 
         public async Task<bool> Criar(DespesaCriarRequest request)
         {
-            await _despesaRepository.Criar(new Despesa(request.UsuarioId, request.Valor, request.Data, request.Categoria.ToString()));
-
             Usuario usuario = await _usuarioRepository.Obter(request.UsuarioId);
 
             if (usuario.Saldo < request.Valor)
@@ -34,6 +32,7 @@ namespace controle_financeiro_api.Service
                 return false;
             }
 
+            await _despesaRepository.Criar(new Despesa(request.UsuarioId, request.Valor, request.Data, request.Categoria.ToString()));
             usuario.SubtrairSaldo(request.Valor);
             await _usuarioRepository.Alterar(usuario);
 

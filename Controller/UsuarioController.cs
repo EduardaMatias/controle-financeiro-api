@@ -25,15 +25,6 @@ namespace controle_financeiro_api.Controller
             return Ok(await _usuarioService.Obter(id));
         }
 
-        [HttpGet("buscar-por-email/{email}")]
-        [ProducesResponseType(typeof(Usuario), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Obter([FromRoute] string email)
-        {
-            return Ok(await _usuarioService.Obter(email));
-        }
-
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
