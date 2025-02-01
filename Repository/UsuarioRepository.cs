@@ -1,8 +1,7 @@
 ﻿using controle_financeiro_api.Models;
-using Microsoft.Data.SqlClient;
 using Dapper;
-using Dapper.Contrib.Extensions;
 using System.Data;
+using Npgsql;
 
 namespace controle_financeiro_api.Repository
 {
@@ -17,41 +16,57 @@ namespace controle_financeiro_api.Repository
 
         public async Task<Usuario> Obter(int id)
         {
-            using IDbConnection conn = new SqlConnection(_connectionString);
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
             conn.Open();
-            return await conn.GetAsync<Usuario>(id);
+            string query = @"SELECT * FROM ""Usuario"" WHERE ""Id"" = @Id";
+            return await conn.QueryFirstOrDefaultAsync<Usuario>(query, new { Id = id });
         }
 
         public async Task<Usuario> Obter(string email)
         {
-            using IDbConnection conn = new SqlConnection(_connectionString);
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
             conn.Open();
-            string query = "SELECT * FROM Usuario WHERE Email = @Email";
+            string query = @"SELECT * FROM ""Usuario"" WHERE ""Email"" = @Email";
             return await conn.QueryFirstOrDefaultAsync<Usuario>(query, new { Email = email });
         }
 
         public async Task<bool> Criar(Usuario usuario)
         {
-            using IDbConnection connection = new SqlConnection(_connectionString);
-            connection.Open();
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
             usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
 
-            using IDbTransaction tran = connection.BeginTransaction();
-            await connection.InsertAsync(usuario, tran);
+            string query = @"INSERT INTO ""Usuario"" (""Nome"", ""Email"", ""Senha"", ""Saldo"") 
+                                    VALUES (@Nome, @Email, @Senha, @Saldo)";
+
+            using IDbTransaction tran = conn.BeginTransaction();
+            int rowsAffected = await conn.ExecuteAsync(query, usuario, tran);
             tran.Commit();
-            return true;
+
+            return rowsAffected > 0;
         }
+
 
         public async Task<bool> Alterar(Usuario usuario)
         {
-            using IDbConnection connectionDapper = new SqlConnection(_connectionString);
-            connectionDapper.Open();
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
-            using IDbTransaction tran = connectionDapper.BeginTransaction();
-            await connectionDapper.UpdateAsync(usuario, tran);
+            usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
+
+            const string query = @"UPDATE ""Usuario"" 
+                                    SET ""Nome"" = @Nome, 
+                                    ""Email"" = @Email, 
+                                    ""Senha"" = @Senha, 
+                                    ""Saldo"" = @Saldo
+                                    WHERE ""Id"" = @Id";
+
+            using IDbTransaction tran = conn.BeginTransaction();
+            int rowsAffected = await conn.ExecuteAsync(query, usuario, tran);
             tran.Commit();
-            return true;
+
+            return rowsAffected > 0;
         }
 
     }

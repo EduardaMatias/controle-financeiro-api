@@ -1,7 +1,6 @@
 ﻿using controle_financeiro_api.Model;
 using Dapper;
-using Dapper.Contrib.Extensions;
-using Microsoft.Data.SqlClient;
+using Npgsql;
 using System.Data;
 
 namespace controle_financeiro_api.Repository
@@ -17,25 +16,29 @@ namespace controle_financeiro_api.Repository
 
         public async Task<IEnumerable<Historico>> Listar(int usuarioId, int mes)
         {
-            using IDbConnection conn = new SqlConnection(_connectionString);
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
             conn.Open();
 
-            string query = "SELECT * FROM Historico H " +
-                           "WHERE H.Usuario_Id = @UsuarioId " +
-                           "AND MONTH(H.Data) = @Mes";
+            string query = @"SELECT * FROM ""Historico"" H 
+                            WHERE H.""Usuario_Id"" = @UsuarioId 
+                            AND EXTRACT(MONTH FROM H.""Data"") = @Mes";
 
             return await conn.QueryAsync<Historico>(query, new { UsuarioId = usuarioId, Mes = mes });
         }
 
         public async Task<bool> Criar(Historico historico)
         {
-            using IDbConnection connection = new SqlConnection(_connectionString);
-            connection.Open();
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
-            using IDbTransaction tran = connection.BeginTransaction();
-            await connection.InsertAsync(historico, tran);
+            string query = @"INSERT INTO ""Historico"" (""Usuario_Id"", ""Tipo"", ""Valor"", ""Data"", ""Categoria"")
+                           VALUES (@Usuario_Id, @Tipo, @Valor, @Data, @Categoria)";
+
+            using IDbTransaction tran = conn.BeginTransaction();
+            int rowsAffected = await conn.ExecuteAsync(query, historico, tran);
             tran.Commit();
-            return true;
+
+            return rowsAffected > 0;
         }
     }
 }

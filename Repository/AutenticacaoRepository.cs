@@ -1,9 +1,8 @@
 ﻿using controle_financeiro_api.Model.DTO.Request;
 using controle_financeiro_api.Models;
 using Dapper;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -24,10 +23,11 @@ namespace controle_financeiro_api.Repository
 
         public async Task<string?> Login(AutenticacaoLoginRequest request)
         {
-            using IDbConnection conn = new SqlConnection(_connectionString);
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
             conn.Open();
 
-            var usuario = await conn.QueryFirstOrDefaultAsync<Usuario>("SELECT * FROM Usuario WHERE Email = @Email", new { request.Email });
+            string query = @"SELECT * FROM ""Usuario"" WHERE ""Email"" = @Email";
+            var usuario = await conn.QueryFirstOrDefaultAsync<Usuario>(query, new { request.Email });
 
             if (usuario == null || !BCrypt.Net.BCrypt.Verify(request.Senha, usuario.Senha))
             {

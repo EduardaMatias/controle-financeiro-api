@@ -1,9 +1,6 @@
 ﻿using controle_financeiro_api.Model;
-using controle_financeiro_api.Model.Enum;
-using controle_financeiro_api.Models;
 using Dapper;
-using Dapper.Contrib.Extensions;
-using Microsoft.Data.SqlClient;
+using Npgsql;
 using System.Data;
 
 namespace controle_financeiro_api.Repository
@@ -17,60 +14,58 @@ namespace controle_financeiro_api.Repository
             _connectionString = connectionString;
         }
 
-        public async Task<Planejamento> Obter(Mes mes)
+        public async Task<Planejamento?> Obter(int usuarioId, string mes)
         {
-            using IDbConnection conn = new SqlConnection(_connectionString);
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
             conn.Open();
 
-            string query = "SELECT * FROM Planejamento " +
-                            "WHERE Mes = @Mes";
+            string query = @"SELECT * FROM ""Planejamento"" 
+                            WHERE ""Usuario_Id"" = @UsuarioId 
+                            AND ""Mes"" = @Mes";
 
-            return await conn.QueryFirstOrDefaultAsync<Planejamento>(query, new { Mes = mes });
-        }
-
-        public async Task<Planejamento> Obter(int usuarioId, string mes)
-        {
-            using IDbConnection conn = new SqlConnection(_connectionString);
-            conn.Open();
-
-            string query = "SELECT * FROM Planejamento " +
-                            "WHERE Usuario_Id = @UsuarioId " +
-                            "AND Mes = @Mes";
-
-            return await conn.QueryFirstOrDefaultAsync<Planejamento>(query, new { UsuarioId = usuarioId, Mes = mes });
+            return await conn.QueryFirstOrDefaultAsync<Planejamento?>(query, new { UsuarioId = usuarioId, Mes = mes });
         }
 
         public async Task<Planejamento> Obter(int id)
         {
-            using IDbConnection conn = new SqlConnection(_connectionString);
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
             conn.Open();
 
-            string query = "SELECT * FROM Planejamento " +
-                            "WHERE Id = @Id";
+            string query = @"SELECT * FROM ""Planejamento"" 
+                            WHERE ""Id"" = @Id";
 
             return await conn.QueryFirstOrDefaultAsync<Planejamento>(query, new { Id = id });
         }
 
         public async Task<bool> Criar(Planejamento planejamento)
         {
-            using IDbConnection connection = new SqlConnection(_connectionString);
-            connection.Open();
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
-            using IDbTransaction tran = connection.BeginTransaction();
-            await connection.InsertAsync(planejamento, tran);
+            string query = @"INSERT INTO ""Planejamento"" (""Usuario_Id"", ""Valor"", ""Mes"")
+                     VALUES (@Usuario_Id, @Valor, @Mes)";
+
+            using IDbTransaction tran = conn.BeginTransaction();
+            int rowsAffected = await conn.ExecuteAsync(query, planejamento, tran);
             tran.Commit();
-            return true;
+
+            return rowsAffected > 0;
         }
 
         public async Task<bool> Alterar(Planejamento planejamento)
         {
-            using IDbConnection connectionDapper = new SqlConnection(_connectionString);
-            connectionDapper.Open();
+            using IDbConnection conn = new NpgsqlConnection(_connectionString);
+            conn.Open();
 
-            using IDbTransaction tran = connectionDapper.BeginTransaction();
-            await connectionDapper.UpdateAsync(planejamento, tran);
+            string query = @"UPDATE ""Planejamento""
+                     SET ""Usuario_Id"" = @Usuario_Id, ""Valor"" = @Valor, ""Mes"" = @Mes
+                     WHERE ""Id"" = @Id";
+
+            using IDbTransaction tran = conn.BeginTransaction();
+            int rowsAffected = await conn.ExecuteAsync(query, planejamento, tran);
             tran.Commit();
-            return true;
+
+            return rowsAffected > 0;
         }
     }
 }
