@@ -49,7 +49,7 @@ namespace controle_financeiro_api.Controller
                 return UnprocessableEntity();
             }
 
-            return Ok();
+            return Ok(resposta);
         }
     }
 }

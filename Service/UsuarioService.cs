@@ -17,7 +17,7 @@ namespace controle_financeiro_api.Service
 
         public async Task<bool> Criar(UsuarioCriarAlterarRequest request)
         {
-            var usuario = _usuarioRepository.Obter(request.Email);
+            var usuario = await _usuarioRepository.Obter(request.Email);
 
             if(usuario != null)
             {

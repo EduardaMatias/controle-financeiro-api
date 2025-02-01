@@ -36,7 +36,7 @@ namespace controle_financeiro_api.Service
             usuario.SubtrairSaldo(request.Valor);
             await _usuarioRepository.Alterar(usuario);
 
-            return await _historicoRepository.Criar(new Historico(request.UsuarioId, HistoricoTipo.RECEITA.ToString(), request.Valor, request.Data, request.Categoria.ToString()));
+            return await _historicoRepository.Criar(new Historico(request.UsuarioId, HistoricoTipo.DESPESA.ToString(), request.Valor, request.Data, request.Categoria.ToString()));
         }
 
         public async Task<ReceitaDespesaResponse> Listar(int usuarioId, Mes mes)
