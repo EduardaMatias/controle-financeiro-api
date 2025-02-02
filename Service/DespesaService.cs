@@ -25,6 +25,16 @@ namespace controle_financeiro_api.Service
         public async Task<bool> Criar(DespesaCriarRequest request)
         {
             Usuario usuario = await _usuarioRepository.Obter(request.UsuarioId);
+            await _despesaRepository.Criar(new Despesa(request.UsuarioId, request.Valor, request.Data, request.Categoria.ToString()));
+            usuario.SubtrairSaldo(request.Valor);
+            await _usuarioRepository.Alterar(usuario);
+
+            return await _historicoRepository.Criar(new Historico(request.UsuarioId, HistoricoTipo.DESPESA.ToString(), request.Valor, request.Data, request.Categoria.ToString()));
+        }
+
+        public async Task<bool> ValidarSaldo(DespesaCriarRequest request)
+        {
+            Usuario usuario = await _usuarioRepository.Obter(request.UsuarioId);
 
             if (usuario.Saldo < request.Valor)
             {
@@ -32,11 +42,7 @@ namespace controle_financeiro_api.Service
                 return false;
             }
 
-            await _despesaRepository.Criar(new Despesa(request.UsuarioId, request.Valor, request.Data, request.Categoria.ToString()));
-            usuario.SubtrairSaldo(request.Valor);
-            await _usuarioRepository.Alterar(usuario);
-
-            return await _historicoRepository.Criar(new Historico(request.UsuarioId, HistoricoTipo.DESPESA.ToString(), request.Valor, request.Data, request.Categoria.ToString()));
+            return true;
         }
 
         public async Task<ReceitaDespesaResponse> Listar(int usuarioId, Mes mes)

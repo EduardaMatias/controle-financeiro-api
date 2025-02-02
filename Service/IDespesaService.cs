@@ -8,6 +8,7 @@ namespace controle_financeiro_api.Service
     public interface IDespesaService
     {
         Task<bool> Criar(DespesaCriarRequest request);
+        Task<bool> ValidarSaldo(DespesaCriarRequest request);
         Task<ReceitaDespesaResponse> Listar(int usuarioId, Mes mes);
     }
 }

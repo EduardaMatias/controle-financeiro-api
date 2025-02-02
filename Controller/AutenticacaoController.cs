@@ -42,14 +42,14 @@ namespace controle_financeiro_api.Controller
         [AllowAnonymous] 
         public async Task<IActionResult> Criar([FromBody] UsuarioCriarAlterarRequest request)
         {
-            var resposta = await _usuarioService.Criar(request);
+            var emailValido = await _usuarioService.ValidarEmail(request.Email);
 
-            if(!resposta)
+            if(!emailValido)
             {
                 return UnprocessableEntity();
             }
 
-            return Ok(resposta);
+            return Ok(await _usuarioService.Criar(request));
         }
     }
 }

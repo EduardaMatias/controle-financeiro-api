@@ -1,4 +1,5 @@
-﻿using controle_financeiro_api.Model.DTO.Request;
+﻿using Azure.Core;
+using controle_financeiro_api.Model.DTO.Request;
 using controle_financeiro_api.Models;
 using controle_financeiro_api.Repository;
 
@@ -17,25 +18,25 @@ namespace controle_financeiro_api.Service
 
         public async Task<bool> Criar(UsuarioCriarAlterarRequest request)
         {
-            var usuario = await _usuarioRepository.Obter(request.Email);
+            return await _usuarioRepository.Criar(new Usuario(request.Nome, request.Email, request.Senha));
+        }
 
-            if(usuario != null)
+        public async Task<bool> ValidarEmail(string email)
+        {
+            var usuario = await _usuarioRepository.Obter(email);
+
+            if (usuario != null)
             {
                 _logger.LogWarning("Já existe usuário cadastrado com esse email.");
                 return false;
             }
 
-            return await _usuarioRepository.Criar(new Usuario(request.Nome, request.Email, request.Senha));
+            return true;
         }
 
         public async Task<Usuario> Obter(int id)
         {
             return await _usuarioRepository.Obter(id);
-        }
-
-        public async Task<Usuario> Obter(string email)
-        {
-            return await _usuarioRepository.Obter(email);
         }
 
         public async Task<bool> Alterar(int id, UsuarioCriarAlterarRequest request)
