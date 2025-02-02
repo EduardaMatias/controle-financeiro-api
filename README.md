@@ -1,7 +1,6 @@
-# 💸 Controle Financeiro Pessoal | API
+# Controle Financeiro Pessoal | API 
 
-> [!NOTE]
-> O projeto ainda está em desenvolvimento
+<a href="https://controle-financeiro-api-k7my.onrender.com/swagger/index.html" target="_blank"><img src="https://img.shields.io/badge/Ver%20Documentação%20da%20API-%2385EA2D?style=for-the-badge&logo=swagger&logoColor=black" alt="Ver Documentação da API" /></a>
 
 ### 🧾 Descrição
 Esta API foi desenvolvida para gerenciar finanças pessoais, permitindo aos usuários controlar receitas e despesas de forma eficiente. Inclui funcionalidades como cadastro de usuários, autenticação, gerenciamento de transações financeiras e planejamento de gastos.
@@ -32,6 +31,9 @@ Esta API foi desenvolvida para gerenciar finanças pessoais, permitindo aos usu�
 3. **ASP.NET Core**: Framework de alto desempenho e open-source construído em cima do .NET, especificamente para desenvolvimento de aplicações web modernas e APIs RESTful. Ele é a evolução do ASP.NET clássico, sendo totalmente reescrito para ser modular, leve e multiplataforma.
 
 4. **PostgreSQL**: Sistema de gerenciamento de banco de dados relacional (SGBD) open-source, conhecido por sua confiabilidade, robustez e conformidade com padrões SQL.
+
+> [!NOTE]
+> O projeto ainda está em desenvolvimento
 
 
 
